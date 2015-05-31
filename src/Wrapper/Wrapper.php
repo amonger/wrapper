@@ -18,7 +18,7 @@ class Wrapper
     public function getRoute($route)
     {
         $resource = $this->makeResource();
-        $resource->setPath($this->directory . $route);
+        $resource->setResource($this->directory . $route);
         return $resource;
     }
 

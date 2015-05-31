@@ -1,5 +1,6 @@
 <?php
 
+use alanmonger\Wrapper\Node\Link;
 use amonger\Wrapper\Resource\Resource;
 use amonger\Wrapper\Wrapper;
 use Vfs\FileSystem;
@@ -9,15 +10,11 @@ use Vfs\Node\File;
 class WrapperTest extends PHPUnit_Framework_TestCase
 {
     private $fileSystem;
+    private $html;
 
     public function setUp()
     {
-        $this->fileSystem = FileSystem::factory('vfs://');
-    }
-
-    public function testGetHtmlFromFolder()
-    {
-        $html = '
+        $this->html = '
             <!doctype html>
             <html>
                 <head>

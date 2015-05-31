@@ -2,22 +2,38 @@
 
 namespace amonger\Wrapper\Resource;
 
+use alanmonger\Wrapper\Node\Node;
+
 class Resource
 {
-    private $path;
+    private $resource;
 
-    public function __construct($path = "")
+    public function __construct($resource = "")
     {
-        $this->path = $path;
+        $this->resource = ($resource !== "")
+            ? fopen($resource, 'rw') : $resource;
     }
 
-    public function setPath($path)
+    public function setResource($resource)
     {
-        $this->path = $path;
+        $this->resource = fopen($resource, 'rw');
     }
 
     public function getHTML()
     {
-        return file_get_contents($this->path);
+        $contents = '';
+        if (!is_resource($this->resource)) {
+            throw new \Exception;
+        }
+        while (!feof($this->resource)) {
+            $contents .= fread($this->resource, 8192);
+        }
+        return $contents;
+    }
+
+    public function inject(Node $node)
+    {
+        $html = $this->getHTML();
+
     }
 }
