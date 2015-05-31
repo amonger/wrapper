@@ -2,7 +2,7 @@
 
 namespace amonger\Wrapper\Resource;
 
-use alanmonger\Wrapper\Node\Node;
+use amonger\Wrapper\Node\Node;
 
 class Resource
 {
@@ -33,7 +33,16 @@ class Resource
 
     public function inject(Node $node)
     {
-        $html = $this->getHTML();
-
+        $contents = '';
+        if (!is_resource($this->resource)) {
+            throw new \Exception;
+        }
+        while (($buffer = fgets($this->resource, 4096)) !== false) {
+            if (strpos($buffer, $node->position()) !== false) {
+                $buffer = $node->format() . PHP_EOL . $buffer;
+            }
+            $contents .= $buffer;
+        }
+        return $contents;
     }
 }

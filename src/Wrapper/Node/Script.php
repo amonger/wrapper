@@ -1,6 +1,6 @@
 <?php
 
-namespace alanmonger\Wrapper\Node;
+namespace amonger\Wrapper\Node;
 
 class Script implements Node
 {
@@ -18,6 +18,6 @@ class Script implements Node
 
     public function position()
     {
-        return "header";
+        return self::FOOTER;
     }
 }

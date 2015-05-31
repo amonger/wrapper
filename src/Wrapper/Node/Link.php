@@ -1,6 +1,6 @@
 <?php
 
-namespace alanmonger\Wrapper\Node;
+namespace amonger\Wrapper\Node;
 
 class Link implements Node
 {
@@ -13,11 +13,11 @@ class Link implements Node
 
     public function format()
     {
-        return sprintf('<link href="%s" />');
+        return sprintf('<link rel="stylesheet" type="text/css" href="%s" />', $this->href);
     }
 
     public function position()
     {
-        return "footer";
+        return self::HEADER;
     }
 }

@@ -1,6 +1,6 @@
 {
   "license": "MIT",
-  "name": "amonger/firewall",
+  "name": "amonger/wrapper",
   "require-dev": {
     "phpunit/phpunit": "^4.6",
     "adlawson/vfs": "^0.9.4"
