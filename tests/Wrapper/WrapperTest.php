@@ -1,6 +1,6 @@
 <?php
 
-use amonger\Parser\Parser\Parser;
+use amonger\Wrapper\Parser\Parser;
 use amonger\Wrapper\Node\Link;
 use amonger\Wrapper\Resource\Resource;
 use amonger\Wrapper\Wrapper;

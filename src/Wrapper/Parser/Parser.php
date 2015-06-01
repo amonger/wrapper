@@ -1,6 +1,6 @@
 <?php
 
-namespace amonger\Parser\Parser;
+namespace amonger\Wrapper\Parser;
 
 use amonger\Wrapper\Resource\Resource;
 
