@@ -3,22 +3,44 @@
 namespace amonger\Wrapper\Resource;
 
 use amonger\Wrapper\Node\Node;
+use closure;
 
 class Resource
 {
+    private $path;
     private $resource;
 
-    public function __construct($resource = null)
+    /**
+     * @param string $path
+     */
+    public function setResource($path)
     {
-        $this->resource = ($resource !== null)
-            ? fopen($resource, 'rw') : $resource;
+        $this->path = $path;
+        $this->resource = fopen($path, 'rw');
     }
 
-    public function setResource($resource)
+    /**
+     * @return string
+     */
+    public function getPath()
     {
-        $this->resource = fopen($resource, 'rw');
+        return $this->path;
     }
 
+    /**
+     * @return string
+     */
+    public function getRelativePath()
+    {
+        $split = explode('/', $this->path);
+        array_pop($split);
+        return implode('/', $split);
+    }
+
+    /**
+     * @return string
+     * @throws \Exception
+     */
     public function getHTML()
     {
         $contents = '';
@@ -31,6 +53,29 @@ class Resource
         return $contents;
     }
 
+    /**
+     * @param callable $fn
+     * @return string
+     * @throws \Exception
+     */
+    public function applyCallback(closure $fn)
+    {
+        $contents = '';
+        if (!is_resource($this->resource)) {
+            throw new \Exception;
+        }
+        while (!feof($this->resource)) {
+            $line = fread($this->resource, 8192);
+            $contents .= $fn($line, $this);
+        }
+        return $contents;
+    }
+
+    /**
+     * @param Node $node
+     * @return string
+     * @throws \Exception
+     */
     public function inject(Node $node)
     {
         $contents = '';
@@ -44,5 +89,13 @@ class Resource
             $contents .= $buffer;
         }
         return $contents;
+    }
+
+    /**
+     * @return Resource
+     */
+    public function getClone()
+    {
+        return clone $this;
     }
 }

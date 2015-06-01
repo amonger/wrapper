@@ -1,5 +1,6 @@
 <?php
 
+use amonger\Parser\Parser\Parser;
 use amonger\Wrapper\Node\Link;
 use amonger\Wrapper\Resource\Resource;
 use amonger\Wrapper\Wrapper;
@@ -43,6 +44,25 @@ class WrapperTest extends PHPUnit_Framework_TestCase
 
     }
 
+    public function testParseRelativeRequire()
+    {
+        $subRequireHTML = '<?php require "test.php" ?>';
+        $testPhp = "hello world";
+
+        $this->directory = new Directory([
+            'index.php'   => new File($subRequireHTML),
+            'test.php' => new File($testPhp)
+        ]);
+
+        $this->fileSystem->get('/')->add('foo', $this->directory);
+
+        $wrapper = new Wrapper('vfs://', new Resource());
+        $resource = $wrapper->getRoute('/foo/index.php');
+        $result = new Parser($resource);
+        $html = $result->renderRequireIncludes();
+        $this->assertContains($testPhp, $html);
+    }
+
     public function testInjectLinkHrefIntoHead()
     {
         $this->fileSystem->get('/')->add('foo', $this->directory);
@@ -53,6 +73,5 @@ class WrapperTest extends PHPUnit_Framework_TestCase
             '<link rel="stylesheet" type="text/css" href="//style.css" />',
             $result
         );
-
     }
 }
