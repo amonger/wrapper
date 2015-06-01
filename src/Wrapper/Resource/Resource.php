@@ -8,9 +8,9 @@ class Resource
 {
     private $resource;
 
-    public function __construct($resource = "")
+    public function __construct($resource = null)
     {
-        $this->resource = ($resource !== "")
+        $this->resource = ($resource !== null)
             ? fopen($resource, 'rw') : $resource;
     }
 
